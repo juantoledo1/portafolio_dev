@@ -1,20 +1,37 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# JUAN_TOLEDO.sh | Portfolio Profesional
 
-# Run and deploy your AI Studio app
+Este repositorio contiene mi portfolio personal como **Full-Stack Developer & Cybersecurity Specialist**. La plataforma está diseñada bajo una estética "Hacker/Cyber" moderna, priorizando el rendimiento, la seguridad y la experiencia de usuario (UX).
 
-This contains everything you need to run your app locally.
+## 🚀 Tecnologías Utilizadas
 
-View your app in AI Studio: https://ai.studio/apps/drive/1GMwPzrb5iKI0mil3mgiTEMK7Zx8UqNkW
+- **Frontend:** React + TypeScript.
+- **Estilos:** Tailwind CSS (Arquitectura Utility-First).
+- **Iconografía:** Lucide React.
+- **Formularios:** Integración nativa con Netlify Forms.
+- **Despliegue:** Optimizado para entornos CI/CD.
 
-## Run Locally
+## 🛠️ Características Principales
 
-**Prerequisites:**  Node.js
+- **Diseño Responsivo:** Adaptado para monitores de alta resolución y dispositivos móviles con menús inteligentes.
+- **Terminal Interactivo:** Un componente funcional que simula una terminal Bash para una experiencia inmersiva.
+- **Optimización SEO:** Estructura semántica diseñada para mejorar el posicionamiento y visibilidad.
+- **Seguridad en Formularios:** Gestión de envíos cifrada y protegida mediante el backend de Netlify.
 
+## 📦 Instalación y Uso
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. Clonar el repositorio.
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Iniciar entorno de desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+## 🛡️ Perfil Profesional
+
+Me especializo en construir software que no solo es escalable y rápido, sino también resistente a vulnerabilidades. Mi enfoque combina el **Growth Marketing** con el **Hardening de Sistemas** para ofrecer soluciones digitales que realmente impulsan negocios.
+
+---
+© 2025 Juan Manuel Toledo • Argentina
