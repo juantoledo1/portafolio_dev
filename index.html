@@ -3,32 +3,25 @@
 <html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <base href="/">
     
     <!-- SEO Básico -->
     <title>Juan Manuel Toledo | Full-Stack & Cybersecurity Specialist</title>
-    <meta name="description" content="Juan Manuel Toledo - Desarrollador Full-Stack y Especialista en Ciberseguridad. Creando software de alto impacto, seguro y escalable. Especialista en React, Node.js y Hardening.">
-    <meta name="keywords" content="Juan Manuel Toledo, Full-Stack, Ciberseguridad, React, Node.js, Posadas Misiones, Argentina, Programador, Seguridad Informática, Bash, Linux, Desarrollo Web">
+    <meta name="description" content="Juan Manuel Toledo - Desarrollador Full-Stack y Especialista en Ciberseguridad. Creando software de alto impacto, seguro y escalable.">
+    <meta name="keywords" content="Juan Manuel Toledo, Full-Stack, Ciberseguridad, React, Node.js, Argentina, Programador, Seguridad Informática">
     <meta name="author" content="Juan Manuel Toledo">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://juantoledo.sh">
 
-    <!-- Open Graph / Facebook (Grap) -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://juantoledo.sh">
     <meta property="og:title" content="Juan Manuel Toledo | Full-Stack & Ciberseguridad">
-    <meta property="og:description" content="Software de alto impacto, seguro y escalable. Fusionando ciberseguridad avanzada y marketing estratégico para soluciones digitales blindadas.">
+    <meta property="og:description" content="Software de alto impacto, seguro y escalable. Soluciones digitales blindadas.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&h=630&auto=format&fit=crop">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://juantoledo.sh">
-    <meta property="twitter:title" content="Juan Manuel Toledo | Full-Stack & Ciberseguridad">
-    <meta property="twitter:description" content="Software de alto impacto, seguro y escalable. Especialista en React, Node.js y Seguridad Informática.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&h=630&auto=format&fit=crop">
-
-    <!-- Favicon (Data URI para evitar 404) -->
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'%3E%3C/polyline%3E%3Cpolyline points='8 6 2 12 8 18'%3E%3C/polyline%3E%3Cline x1='12' y1='2' x2='12' y2='22'%3E%3C/line%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -42,8 +35,10 @@
             --neon-glow: rgba(0, 242, 255, 0.5);
         }
         
-        html {
-            scroll-behavior: smooth;
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
 
         body {
@@ -51,12 +46,11 @@
             background-color: #010409;
             color: #f8fafc;
             margin: 0;
-            overflow-x: hidden;
         }
 
-        /* CUSTOM SCROLLBAR PROFESIONAL */
+        /* CUSTOM SCROLLBAR */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #010409;
@@ -73,7 +67,6 @@
             font-family: 'Fira+Code', monospace;
         }
         
-        /* FONDO ANIMADO */
         .bg-fixed-layer {
             position: fixed;
             inset: 0;
@@ -90,51 +83,45 @@
             width: 200%;
             height: 200%;
             background-image: 
-                linear-gradient(to right, rgba(0, 242, 255, 0.2) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 242, 255, 0.2) 1px, transparent 1px);
-            background-size: 80px 80px;
+                linear-gradient(to right, rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 242, 255, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px;
             transform: perspective(1000px) rotateX(60deg);
             transform-origin: center center;
-            animation: grid-move 25s linear infinite;
+            animation: grid-move 30s linear infinite;
         }
 
         @keyframes grid-move {
             0% { transform: perspective(1000px) rotateX(60deg) translateY(0); }
-            100% { transform: perspective(1000px) rotateX(60deg) translateY(80px); }
+            100% { transform: perspective(1000px) rotateX(60deg) translateY(60px); }
         }
 
         .glow-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(140px);
-            opacity: 0.35;
+            filter: blur(100px);
+            opacity: 0.25;
             z-index: -15;
-            animation: float 25s infinite alternate ease-in-out;
+            animation: float 20s infinite alternate ease-in-out;
         }
-        .orb-1 { width: 800px; height: 800px; background: #06b6d4; top: -15%; left: -10%; }
-        .orb-2 { width: 700px; height: 700px; background: #1e40af; bottom: -10%; right: -5%; animation-delay: -7s; }
+        .orb-1 { width: 400px; height: 400px; background: #06b6d4; top: -10%; left: -10%; }
+        .orb-2 { width: 400px; height: 400px; background: #1e40af; bottom: -10%; right: -5%; animation-delay: -5s; }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(120px, 100px) scale(1.2); }
-        }
-
-        section {
-            scroll-margin-top: 100px;
+        @media (min-width: 768px) {
+            .glow-orb { filter: blur(140px); opacity: 0.35; }
+            .orb-1 { width: 800px; height: 800px; }
+            .orb-2 { width: 700px; height: 700px; }
+            .cyber-grid { background-size: 80px 80px; }
         }
 
         .glass-panel {
             background: rgba(13, 17, 23, 0.8) !important;
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 242, 255, 0.15) !important;
-        }
-
-        .glow-text {
-            text-shadow: 0 0 20px var(--neon-glow);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 242, 255, 0.1) !important;
         }
 
         .reveal-text {
-            background: linear-gradient(to bottom right, #ffffff 70%, #64748b);
+            background: linear-gradient(to bottom right, #ffffff 70%, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -142,18 +129,15 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.0.0",
-    "react/": "https://esm.sh/react@^19.0.0/",
-    "react-dom": "https://esm.sh/react-dom@^19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@^19.0.0/client",
-    "lucide-react": "https://esm.sh/lucide-react@^0.474.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.564.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
 </head>
 <body>
-    <!-- Formulario oculto para Netlify (Bot Detection) - Sincronizado exactamente -->
     <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="hidden" name="form-name" value="contact" />
       <input type="text" name="bot-field" />
@@ -170,8 +154,6 @@
     </div>
     
     <div id="root"></div>
-
-    <!-- Script de entrada con soporte para TSX -->
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>

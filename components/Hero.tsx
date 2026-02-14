@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      const offset = 100;
+      const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -24,59 +24,59 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center pt-24 pb-16 px-4 text-center relative bg-transparent overflow-visible">
+    <div className="min-h-[90vh] flex flex-col items-center justify-center pt-28 pb-12 px-4 text-center relative bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto w-full relative z-[60]">
         <div className="flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-950/50 border border-cyan-400/30 text-cyan-400 text-[10px] md:text-xs font-mono-custom mb-10 uppercase tracking-[0.3em] backdrop-blur-xl shadow-lg">
-            <span className="relative flex h-2.5 w-2.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-400/20 text-cyan-400 text-[9px] md:text-xs font-mono-custom mb-8 uppercase tracking-[0.2em] backdrop-blur-xl">
+            <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
             </span>
             {t.hero.status}
           </div>
           
-          <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tighter reveal-text px-2 max-w-5xl">
-            {t.hero.title1} <br className="hidden md:block" />
+          <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[1.15] md:leading-[1.1] tracking-tight md:tracking-tighter reveal-text px-2 max-w-5xl">
+            {t.hero.title1} <br className="hidden sm:block" />
             <span className="text-cyan-400 glow-text">{t.hero.title2}</span> & <span className="text-emerald-400">{t.hero.title3}</span>.
           </h1>
           
-          <p className="text-slate-300 text-base md:text-xl mb-12 max-w-3xl mx-auto leading-relaxed px-4">
+          <p className="text-slate-400 text-sm md:text-lg lg:text-xl mb-10 max-w-2xl mx-auto leading-relaxed px-4">
             {t.hero.desc}
           </p>
           
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-5 mb-24 w-full max-w-md relative z-[70]">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16 w-full max-w-[280px] sm:max-w-md relative z-[70]">
             <button 
               onClick={(e) => scrollToSection(e, 'projects')}
-              className="w-full sm:w-auto px-12 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(8,145,178,0.3)] text-sm uppercase tracking-widest border border-cyan-400/20 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold transition-all shadow-lg text-[11px] md:text-xs uppercase tracking-widest border border-cyan-400/20 cursor-pointer"
             >
               {t.hero.btnProjects}
             </button>
             <button 
               onClick={(e) => scrollToSection(e, 'contact')}
-              className="w-full sm:w-auto px-12 py-4 border border-slate-700 hover:border-cyan-400 text-slate-200 hover:text-cyan-400 rounded-2xl font-bold transition-all active:scale-95 glass-panel text-sm uppercase tracking-widest cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 rounded-xl font-bold transition-all glass-panel text-[11px] md:text-xs uppercase tracking-widest cursor-pointer"
             >
               {t.hero.btnTalk}
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 text-slate-400 border-t border-cyan-500/20 pt-16 w-full max-w-5xl pointer-events-none">
-            <div className="flex flex-col items-center gap-3">
-              <div className="p-4 bg-cyan-950/40 rounded-2xl border border-cyan-500/20 shadow-inner">
-                <ShieldCheck className="text-cyan-500 w-8 h-8" />
+          <div className="grid grid-cols-3 gap-4 md:gap-12 text-slate-400 border-t border-cyan-500/10 pt-12 w-full max-w-4xl pointer-events-none">
+            <div className="flex flex-col items-center gap-2">
+              <div className="p-3 md:p-4 bg-cyan-950/20 rounded-xl border border-cyan-500/10">
+                <ShieldCheck className="text-cyan-500 w-5 h-5 md:w-7 md:h-7" />
               </div>
-              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-cyan-500/80">{t.hero.cyber}</span>
+              <span className="text-[8px] md:text-[10px] font-mono-custom uppercase tracking-wider font-bold text-cyan-500/60">{t.hero.cyber}</span>
             </div>
-            <div className="flex flex-col items-center gap-3">
-              <div className="p-4 bg-emerald-950/40 rounded-2xl border border-emerald-500/20 shadow-inner">
-                <TrendingUp className="text-emerald-500 w-8 h-8" />
+            <div className="flex flex-col items-center gap-2">
+              <div className="p-3 md:p-4 bg-emerald-950/20 rounded-xl border border-emerald-500/10">
+                <TrendingUp className="text-emerald-500 w-5 h-5 md:w-7 md:h-7" />
               </div>
-              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-emerald-500/80">{t.hero.growth}</span>
+              <span className="text-[8px] md:text-[10px] font-mono-custom uppercase tracking-wider font-bold text-emerald-500/60">{t.hero.growth}</span>
             </div>
-            <div className="flex flex-col items-center gap-3">
-              <div className="p-4 bg-blue-950/40 rounded-2xl border border-blue-500/20 shadow-inner">
-                <Cpu className="text-blue-500 w-8 h-8" />
+            <div className="flex flex-col items-center gap-2">
+              <div className="p-3 md:p-4 bg-blue-950/20 rounded-xl border border-blue-500/10">
+                <Cpu className="text-blue-500 w-5 h-5 md:w-7 md:h-7" />
               </div>
-              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-blue-500/80">{t.hero.dev}</span>
+              <span className="text-[8px] md:text-[10px] font-mono-custom uppercase tracking-wider font-bold text-blue-500/60">{t.hero.dev}</span>
             </div>
           </div>
         </div>

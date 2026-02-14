@@ -29,20 +29,18 @@ const Terminal: React.FC = () => {
     { text: t.terminal.helpTip, delay: 5000 }
   ];
 
-  // Observador para activar la terminal cuando esté bien visible (70% en pantalla)
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !hasStarted) {
         setHasStarted(true);
         setIsAutoTyping(true);
       }
-    }, { threshold: 0.7 });
+    }, { threshold: 0.5 });
 
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [hasStarted]);
 
-  // Manejador del auto-typing
   useEffect(() => {
     if (!hasStarted) return;
     
@@ -62,11 +60,9 @@ const Terminal: React.FC = () => {
     return () => timeouts.forEach(t => clearTimeout(t));
   }, [hasStarted, lang]);
 
-  // SCROLL INTERNO: Solo actualizamos scrollTop del div de la terminal
   useEffect(() => {
     const el = scrollContainerRef.current;
     if (el) {
-      // Ajustamos el scroll interno al final sin tocar el scroll de la ventana
       el.scrollTop = el.scrollHeight;
     }
   }, [history]);
@@ -74,10 +70,10 @@ const Terminal: React.FC = () => {
   const commands: Record<string, () => void> = {
     help: () => setHistory(prev => [...prev, '> help', t.terminal.helpMsg]),
     whoami: () => setHistory(prev => [...prev, '> whoami', 'Juan Manuel Toledo: Full-Stack Dev + Cyber Specialist.']),
-    services: () => setHistory(prev => [...prev, '> services', lang === 'es' ? '- Web Apps a Medida' : '- Custom Web Apps', '- Security Audits', '- Local SEO', '- PostgreSQL Architectures']),
-    hire: () => setHistory(prev => [...prev, '> hire', lang === 'es' ? 'Redirigiendo... WhatsApp: +54 9 376 467-4458' : 'Redirecting... WhatsApp: +54 9 376 467-4458']),
-    stack: () => setHistory(prev => [...prev, '> stack', 'Next.js, Prisma, PostgreSQL, Docker, Qwen CLI, Arch Linux.']),
-    projects: () => setHistory(prev => [...prev, '> projects', lang === 'es' ? 'Explora la cuadrícula de proyectos.' : 'Explore the project grid below.']),
+    services: () => setHistory(prev => [...prev, '> services', lang === 'es' ? '- Web Apps a Medida' : '- Custom Web Apps', '- Security Audits', '- Local SEO']),
+    hire: () => setHistory(prev => [...prev, '> hire', '+54 9 376 467-4458']),
+    stack: () => setHistory(prev => [...prev, '> stack', 'Next.js, Prisma, PostgreSQL, Docker, Arch Linux.']),
+    projects: () => setHistory(prev => [...prev, '> projects', lang === 'es' ? 'Explora abajo.' : 'Explore below.']),
     clear: () => setHistory([]),
     contact: () => setHistory(prev => [...prev, '> contact', 'WhatsApp: +54 9 376 467-4458'])
   };
@@ -95,34 +91,28 @@ const Terminal: React.FC = () => {
   };
 
   return (
-    <div ref={containerRef} className="max-w-3xl mx-auto my-12 md:my-16 px-4">
-      <div className="bg-slate-900 border border-slate-700 rounded-lg overflow-hidden font-mono-custom text-xs md:text-sm shadow-2xl shadow-cyan-500/10 border-glow-cyan">
-        <div className="bg-slate-800 px-4 py-2 flex items-center justify-between gap-2 border-b border-slate-700">
-          <div className="flex gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+    <div ref={containerRef} className="max-w-3xl mx-auto my-8 md:my-16 px-4">
+      <div className="bg-slate-900 border border-slate-700/50 rounded-xl overflow-hidden font-mono-custom text-[10px] md:text-sm shadow-2xl shadow-cyan-500/5">
+        <div className="bg-slate-800/80 px-4 py-2 flex items-center justify-between gap-2 border-b border-slate-700/50">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
           </div>
-          <span className="text-slate-400 text-[9px] uppercase tracking-[0.2em] font-bold truncate">bash — toledo@freelance</span>
-          <div className="w-8" />
+          <span className="text-slate-500 text-[8px] uppercase tracking-widest font-bold truncate">toledo@bash — 80x24</span>
+          <div className="w-6" />
         </div>
         <div 
           ref={scrollContainerRef}
-          style={{ overflowAnchor: 'none' }}
-          className="p-4 md:p-5 h-[320px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/95 backdrop-blur-sm"
+          className="p-4 md:p-6 h-[260px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/90 backdrop-blur-sm"
         >
-          {!hasStarted && (
-            <div className="text-slate-700 animate-pulse text-center mt-20 font-bold uppercase tracking-widest text-[10px]">
-              {lang === 'es' ? '[ ESPERANDO SEÑAL DE SCROLL... ]' : '[ WAITING FOR SCROLL SIGNAL... ]'}
-            </div>
-          )}
           {history.map((line, i) => (
-            <div key={i} className={`${line.startsWith('>') ? 'text-cyan-400' : line.startsWith('[') ? 'text-emerald-400' : 'text-slate-300'} mb-1.5 break-words font-medium`}>
+            <div key={i} className={`${line.startsWith('>') ? 'text-cyan-400' : line.startsWith('[') ? 'text-emerald-400' : 'text-slate-400'} mb-1 break-words`}>
               {line}
             </div>
           ))}
           {!isAutoTyping && hasStarted && (
-            <form onSubmit={handleCommand} className="flex mt-2">
+            <form onSubmit={handleCommand} className="flex mt-1">
               <span className="text-emerald-500 mr-2 flex-shrink-0">guest@toledo:~$</span>
               <input
                 type="text"
