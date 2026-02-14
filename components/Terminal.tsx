@@ -29,14 +29,14 @@ const Terminal: React.FC = () => {
     { text: t.terminal.helpTip, delay: 5000 }
   ];
 
-  // Observador para activar la terminal cuando esté bien visible (50% de la terminal en pantalla)
+  // Observador para activar la terminal cuando esté bien visible (60% en pantalla)
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !hasStarted) {
         setHasStarted(true);
         setIsAutoTyping(true);
       }
-    }, { threshold: 0.5 }); // threshold más estricto
+    }, { threshold: 0.6 });
 
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -62,14 +62,12 @@ const Terminal: React.FC = () => {
     return () => timeouts.forEach(t => clearTimeout(t));
   }, [hasStarted, lang]);
 
-  // SCROLL INTERNO MEJORADO: overflow-anchor: none previene que el navegador mueva la página
+  // SCROLL INTERNO MATEMÁTICO: No afecta al scroll global del navegador
   useEffect(() => {
-    if (scrollContainerRef.current) {
-      // Forzamos el scroll al final del cuadro negro sin afectar el scroll global de la ventana
-      scrollContainerRef.current.scrollTo({
-        top: scrollContainerRef.current.scrollHeight,
-        behavior: 'auto'
-      });
+    const el = scrollContainerRef.current;
+    if (el) {
+      // Usamos una asignación directa sin animaciones globales para evitar el "ghost scroll"
+      el.scrollTop = el.scrollHeight;
     }
   }, [history]);
 
@@ -110,17 +108,17 @@ const Terminal: React.FC = () => {
         </div>
         <div 
           ref={scrollContainerRef}
-          // overflow-anchor: none es la clave para que el navegador no desplace la página principal
+          // overflow-anchor: none es la clave para que el navegador no mueva la página principal
           style={{ overflowAnchor: 'none' }}
-          className="p-4 md:p-5 h-[300px] md:h-[400px] min-h-[300px] overflow-y-auto custom-scrollbar bg-slate-950/80 backdrop-blur-sm"
+          className="p-4 md:p-5 h-[320px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/90 backdrop-blur-sm"
         >
           {!hasStarted && (
-            <div className="text-slate-600 animate-pulse text-center mt-20">
+            <div className="text-slate-700 animate-pulse text-center mt-20 font-bold uppercase tracking-widest text-[10px]">
               {lang === 'es' ? '[ ESPERANDO SEÑAL DE SCROLL... ]' : '[ WAITING FOR SCROLL SIGNAL... ]'}
             </div>
           )}
           {history.map((line, i) => (
-            <div key={i} className={`${line.startsWith('>') ? 'text-cyan-400' : line.startsWith('[') ? 'text-emerald-400' : 'text-slate-300'} mb-1 break-words`}>
+            <div key={i} className={`${line.startsWith('>') ? 'text-cyan-400' : line.startsWith('[') ? 'text-emerald-400' : 'text-slate-300'} mb-1.5 break-words font-medium`}>
               {line}
             </div>
           ))}

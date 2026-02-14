@@ -7,29 +7,43 @@ const Contact: React.FC = () => {
   const { t } = useLanguage();
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('sending');
 
     const myForm = e.currentTarget;
     const formData = new FormData(myForm);
 
-    // Método oficial recomendado por la documentación de Netlify para AJAX
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString()
-    })
-      .then(() => {
-        setStatus('sent');
-        myForm.reset(); // Limpia el formulario
-        setTimeout(() => setStatus('idle'), 5000);
-      })
-      .catch((error) => {
-        console.error("Netlify Form Error:", error);
-        setStatus('error');
-        setTimeout(() => setStatus('idle'), 5000);
+    // Método ultra-robusto: Construimos los parámetros URL asegurando que form-name esté presente
+    const searchParams = new URLSearchParams();
+    formData.forEach((value, key) => {
+      searchParams.append(key, value as string);
+    });
+    
+    // Si por alguna razón form-name no entró desde el input hidden, lo forzamos
+    if (!searchParams.has('form-name')) {
+      searchParams.append('form-name', 'contact');
+    }
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: searchParams.toString()
       });
+
+      if (response.ok) {
+        setStatus('sent');
+        myForm.reset();
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        throw new Error("Netlify response not ok");
+      }
+    } catch (error) {
+      console.error("Netlify Form Error:", error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   return (
@@ -97,7 +111,6 @@ const Contact: React.FC = () => {
               onSubmit={handleSubmit}
               className="space-y-8 relative z-10"
             >
-              {/* Estos campos ocultos son críticos para que Netlify procese los datos */}
               <input type="hidden" name="form-name" value="contact" />
               <div className="hidden">
                 <label>Honeypot: <input name="bot-field" /></label>
