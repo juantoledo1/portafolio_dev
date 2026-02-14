@@ -5,28 +5,34 @@ import { useLanguage } from '../App';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const encode = (data: any) => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
+    // Envío exacto según el estándar que detecta Netlify
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString(),
+      body: encode({ "form-name": "contact", ...formState })
     })
       .then(() => {
         setStatus('sent');
-        form.reset();
-        setTimeout(() => setStatus('idle'), 3000);
+        setFormState({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
       })
       .catch((error) => {
         console.error(error);
-        setStatus('idle');
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
       });
   };
 
@@ -75,11 +81,11 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="mt-14 flex gap-6">
-              <a href="https://github.com/juantoledo1" target="_blank" rel="noreferrer" className="w-14 h-14 glass-panel rounded-2xl flex items-center justify-center hover:border-cyan-500 transition-all hover:-translate-y-1">
+              <a href="https://github.com/juantoledo1" target="_blank" rel="noreferrer" className="w-14 h-14 glass-panel rounded-2xl flex items-center justify-center hover:border-cyan-500 transition-all hover:-translate-y-1 text-slate-400 hover:text-white">
                 <Github className="w-7 h-7" />
               </a>
-              <a href="https://linkedin.com/in/juantoledo1" target="_blank" rel="noreferrer" className="w-14 h-14 glass-panel rounded-2xl flex items-center justify-center hover:border-blue-500 transition-all hover:-translate-y-1">
-                <Linkedin className="w-7 h-7 text-blue-400" />
+              <a href="https://linkedin.com/in/juantoledo1" target="_blank" rel="noreferrer" className="w-14 h-14 glass-panel rounded-2xl flex items-center justify-center hover:border-blue-500 transition-all hover:-translate-y-1 text-slate-400 hover:text-blue-400">
+                <Linkedin className="w-7 h-7" />
               </a>
             </div>
           </div>
@@ -91,50 +97,72 @@ const Contact: React.FC = () => {
               name="contact" 
               method="POST" 
               data-netlify="true" 
+              data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
               className="space-y-8 relative z-10"
             >
               <input type="hidden" name="form-name" value="contact" />
+              <div className="hidden">
+                <label>Honeypot: <input name="bot-field" /></label>
+              </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-[10px] font-mono-custom text-slate-500 mb-3 uppercase tracking-widest">{t.contact.labelName}</label>
+                  <label htmlFor="name" className="block text-[10px] font-mono-custom text-slate-500 mb-3 uppercase tracking-widest">{t.contact.labelName}</label>
                   <input 
+                    id="name"
                     required 
                     type="text" 
                     name="name"
+                    value={formState.name}
+                    onChange={(e) => setFormState({...formState, name: e.target.value})}
                     className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all" 
                     placeholder={t.contact.placeName} 
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-mono-custom text-slate-500 mb-3 uppercase tracking-widest">{t.contact.labelEmail}</label>
+                  <label htmlFor="email" className="block text-[10px] font-mono-custom text-slate-500 mb-3 uppercase tracking-widest">{t.contact.labelEmail}</label>
                   <input 
+                    id="email"
                     required 
                     type="email" 
                     name="email"
+                    value={formState.email}
+                    onChange={(e) => setFormState({...formState, email: e.target.value})}
                     className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all" 
                     placeholder={t.contact.placeEmail} 
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] font-mono-custom text-slate-500 mb-3 uppercase tracking-widest">{t.contact.labelMsg}</label>
+                <label htmlFor="message" className="block text-[10px] font-mono-custom text-slate-500 mb-3 uppercase tracking-widest">{t.contact.labelMsg}</label>
                 <textarea 
+                  id="message"
                   required 
                   name="message"
                   rows={5} 
+                  value={formState.message}
+                  onChange={(e) => setFormState({...formState, message: e.target.value})}
                   className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all resize-none" 
                   placeholder={t.contact.placeMsg}
                 ></textarea>
               </div>
+              
+              {status === 'error' && (
+                <p className="text-red-400 text-xs text-center font-mono-custom">
+                  Hubo un error al enviar. Por favor intenta por WhatsApp.
+                </p>
+              )}
+
               <button 
-                disabled={status !== 'idle'}
+                disabled={status === 'sending' || status === 'sent'}
                 type="submit" 
                 className={`w-full py-5 rounded-xl font-bold transition-all shadow-xl uppercase tracking-widest text-sm border flex items-center justify-center gap-3 ${
                   status === 'sent' 
-                  ? 'bg-emerald-600 border-emerald-400 text-white' 
-                  : 'bg-cyan-600 hover:bg-cyan-500 text-white border-cyan-400/20'
+                  ? 'bg-emerald-600 border-emerald-400 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
+                  : status === 'sending'
+                  ? 'bg-slate-800 border-slate-700 text-slate-500 cursor-wait'
+                  : 'bg-cyan-600 hover:bg-cyan-500 text-white border-cyan-400/20 active:scale-95'
                 }`}
               >
                 {status === 'idle' && (

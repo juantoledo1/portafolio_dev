@@ -6,8 +6,10 @@ const Terminal: React.FC = () => {
   const { lang, t } = useLanguage();
   const [history, setHistory] = useState<string[]>([]);
   const [input, setInput] = useState('');
-  const [isAutoTyping, setIsAutoTyping] = useState(true);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const [isAutoTyping, setIsAutoTyping] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const autoMessages = [
     { text: t.terminal.init, delay: 400 },
@@ -27,10 +29,24 @@ const Terminal: React.FC = () => {
     { text: t.terminal.helpTip, delay: 5000 }
   ];
 
-  // Reset terminal when language changes
+  // Observador para activar la terminal cuando sea visible
   useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !hasStarted) {
+        setHasStarted(true);
+        setIsAutoTyping(true);
+      }
+    }, { threshold: 0.2 });
+
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [hasStarted]);
+
+  // Manejador del auto-typing
+  useEffect(() => {
+    if (!hasStarted) return;
+    
     setHistory([]);
-    setIsAutoTyping(true);
     const timeouts: ReturnType<typeof setTimeout>[] = [];
 
     autoMessages.forEach((msg, index) => {
@@ -44,14 +60,13 @@ const Terminal: React.FC = () => {
     });
 
     return () => timeouts.forEach(t => clearTimeout(t));
-  }, [lang]);
+  }, [hasStarted, lang]);
 
-  const scrollToBottom = () => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+  // SCROLL INTERNO: Solo mueve el contenido dentro de la terminal
   useEffect(() => {
-    scrollToBottom();
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+    }
   }, [history]);
 
   const commands: Record<string, () => void> = {
@@ -78,8 +93,8 @@ const Terminal: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto my-12 md:my-16 px-4">
-      <div className="bg-slate-900 border border-slate-700 rounded-lg overflow-hidden font-mono-custom text-xs md:text-sm shadow-2xl border-glow-cyan">
+    <div ref={containerRef} className="max-w-3xl mx-auto my-12 md:my-16 px-4">
+      <div className="bg-slate-900 border border-slate-700 rounded-lg overflow-hidden font-mono-custom text-xs md:text-sm shadow-2xl shadow-cyan-500/10 border-glow-cyan">
         <div className="bg-slate-800 px-4 py-2 flex items-center justify-between gap-2 border-b border-slate-700">
           <div className="flex gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
@@ -89,13 +104,21 @@ const Terminal: React.FC = () => {
           <span className="text-slate-400 text-[9px] uppercase tracking-[0.2em] font-bold truncate">bash — toledo@freelance</span>
           <div className="w-8" />
         </div>
-        <div className="p-4 md:p-5 h-[300px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/80 backdrop-blur-sm">
+        <div 
+          ref={scrollContainerRef}
+          className="p-4 md:p-5 h-[300px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/80 backdrop-blur-sm scroll-smooth"
+        >
+          {!hasStarted && (
+            <div className="text-slate-600 animate-pulse text-center mt-20">
+              {lang === 'es' ? '[ ESPERANDO SEÑAL DE SCROLL... ]' : '[ WAITING FOR SCROLL SIGNAL... ]'}
+            </div>
+          )}
           {history.map((line, i) => (
             <div key={i} className={`${line.startsWith('>') ? 'text-cyan-400' : line.startsWith('[') ? 'text-emerald-400' : 'text-slate-300'} mb-1 break-words`}>
               {line}
             </div>
           ))}
-          {!isAutoTyping && (
+          {!isAutoTyping && hasStarted && (
             <form onSubmit={handleCommand} className="flex mt-2">
               <span className="text-emerald-500 mr-2 flex-shrink-0">guest@toledo:~$</span>
               <input
@@ -107,7 +130,6 @@ const Terminal: React.FC = () => {
               />
             </form>
           )}
-          <div ref={bottomRef} />
         </div>
       </div>
     </div>

@@ -142,17 +142,25 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom": "https://esm.sh/react-dom@^19.2.3",
-    "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react": "https://esm.sh/react@^19.0.0",
+    "react/": "https://esm.sh/react@^19.0.0/",
+    "react-dom": "https://esm.sh/react-dom@^19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@^19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@^0.474.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
 </head>
 <body>
+    <!-- Formulario oculto para Netlify (Bot Detection) -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+    </form>
+
     <div class="bg-fixed-layer">
         <div class="cyber-grid"></div>
         <div class="glow-orb orb-1"></div>
