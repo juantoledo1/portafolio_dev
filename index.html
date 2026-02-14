@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     
     <!-- SEO Básico -->
-    <title>Juan Manuel Toledo | Full-Stack & Ciberseguridad</title>
+    <title>Juan Manuel Toledo | Full-Stack & Cybersecurity Specialist</title>
     <meta name="description" content="Juan Manuel Toledo - Desarrollador Full-Stack y Especialista en Ciberseguridad. Creando software de alto impacto, seguro y escalable. Especialista en React, Node.js y Hardening.">
     <meta name="keywords" content="Juan Manuel Toledo, Full-Stack, Ciberseguridad, React, Node.js, Posadas Misiones, Argentina, Programador, Seguridad Informática, Bash, Linux, Desarrollo Web">
     <meta name="author" content="Juan Manuel Toledo">
@@ -27,9 +28,8 @@
     <meta property="twitter:description" content="Software de alto impacto, seguro y escalable. Especialista en React, Node.js y Seguridad Informática.">
     <meta property="twitter:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&h=630&auto=format&fit=crop">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Favicon (Data URI para evitar 404) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'%3E%3C/polyline%3E%3Cpolyline points='8 6 2 12 8 18'%3E%3C/polyline%3E%3Cline x1='12' y1='2' x2='12' y2='22'%3E%3C/line%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -119,7 +119,6 @@
             100% { transform: translate(120px, 100px) scale(1.2); }
         }
 
-        /* AJUSTE DE MARGEN PARA NAVEGACIÓN - CRÍTICO */
         section {
             scroll-margin-top: 100px;
         }
@@ -145,6 +144,7 @@
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
     "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3/client",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
   }
@@ -158,6 +158,10 @@
         <div class="glow-orb orb-2"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-[#010409] via-transparent to-[#010409] pointer-events-none"></div>
     </div>
+    
     <div id="root"></div>
+
+    <!-- Script de entrada crítico para React -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>
