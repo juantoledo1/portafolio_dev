@@ -1,8 +1,11 @@
 
 import React from 'react';
 import { ShieldCheck, TrendingUp, Cpu } from 'lucide-react';
+import { useLanguage } from '../App';
 
 const Hero: React.FC = () => {
+  const { t } = useLanguage();
+
   const scrollToSection = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
@@ -29,16 +32,16 @@ const Hero: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
             </span>
-            SISTEMA_ACTIVO: Juan Manuel Toledo
+            {t.hero.status}
           </div>
           
           <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tighter reveal-text px-2 max-w-5xl">
-            Software de Alto Impacto <br className="hidden md:block" />
-            <span className="text-cyan-400 glow-text">Seguro</span> & <span className="text-emerald-400">Escalable</span>.
+            {t.hero.title1} <br className="hidden md:block" />
+            <span className="text-cyan-400 glow-text">{t.hero.title2}</span> & <span className="text-emerald-400">{t.hero.title3}</span>.
           </h1>
           
           <p className="text-slate-300 text-base md:text-xl mb-12 max-w-3xl mx-auto leading-relaxed px-4">
-            Especialista en fusionar <span className="text-cyan-400 font-bold">Ciberseguridad Avanzada</span> y <span className="text-emerald-400 font-bold">Marketing Estratégico</span>. Construyo soluciones digitales blindadas diseñadas para vender.
+            {t.hero.desc}
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center items-center gap-5 mb-24 w-full max-w-md relative z-[70]">
@@ -46,13 +49,13 @@ const Hero: React.FC = () => {
               onClick={(e) => scrollToSection(e, 'projects')}
               className="w-full sm:w-auto px-12 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(8,145,178,0.3)] text-sm uppercase tracking-widest border border-cyan-400/20 cursor-pointer"
             >
-              Ver Proyectos
+              {t.hero.btnProjects}
             </button>
             <button 
               onClick={(e) => scrollToSection(e, 'contact')}
               className="w-full sm:w-auto px-12 py-4 border border-slate-700 hover:border-cyan-400 text-slate-200 hover:text-cyan-400 rounded-2xl font-bold transition-all active:scale-95 glass-panel text-sm uppercase tracking-widest cursor-pointer"
             >
-              Hablar Ahora
+              {t.hero.btnTalk}
             </button>
           </div>
 
@@ -61,19 +64,19 @@ const Hero: React.FC = () => {
               <div className="p-4 bg-cyan-950/40 rounded-2xl border border-cyan-500/20 shadow-inner">
                 <ShieldCheck className="text-cyan-500 w-8 h-8" />
               </div>
-              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-cyan-500/80">Cyber Security</span>
+              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-cyan-500/80">{t.hero.cyber}</span>
             </div>
             <div className="flex flex-col items-center gap-3">
               <div className="p-4 bg-emerald-950/40 rounded-2xl border border-emerald-500/20 shadow-inner">
                 <TrendingUp className="text-emerald-500 w-8 h-8" />
               </div>
-              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-emerald-500/80">Growth Marketing</span>
+              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-emerald-500/80">{t.hero.growth}</span>
             </div>
             <div className="flex flex-col items-center gap-3">
               <div className="p-4 bg-blue-950/40 rounded-2xl border border-blue-500/20 shadow-inner">
                 <Cpu className="text-blue-500 w-8 h-8" />
               </div>
-              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-blue-500/80">Full-Stack Dev</span>
+              <span className="text-[10px] md:text-xs font-mono-custom uppercase tracking-widest font-bold text-blue-500/80">{t.hero.dev}</span>
             </div>
           </div>
         </div>

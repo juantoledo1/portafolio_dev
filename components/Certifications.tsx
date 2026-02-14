@@ -2,8 +2,10 @@
 import React from 'react';
 import { CERTIFICATIONS } from '../constants';
 import { Award, ShieldAlert, GraduationCap, Briefcase } from 'lucide-react';
+import { useLanguage } from '../App';
 
 const Certifications: React.FC = () => {
+  const { t } = useLanguage();
   const cyberCerts = CERTIFICATIONS.filter(c => c.category === 'cyber');
   const devCerts = CERTIFICATIONS.filter(c => c.category === 'dev');
   const businessCerts = CERTIFICATIONS.filter(c => c.category === 'business');
@@ -39,23 +41,23 @@ const Certifications: React.FC = () => {
     <section id="certs" className="py-24 bg-transparent relative z-10">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl md:text-5xl font-bold mb-16 font-mono-custom">
-          <span className="text-cyan-500">03.</span> <span className="reveal-text">CERTIFICACIONES</span>
+          <span className="text-cyan-500">03.</span> <span className="reveal-text">{t.certs.title}</span>
         </h2>
 
         <Section 
-          title="Seguridad & Networking" 
+          title={t.certs.cat1} 
           icon={<ShieldAlert className="text-emerald-400 w-6 h-6" />} 
           data={cyberCerts} 
         />
         
         <Section 
-          title="Desarrollo & Tech" 
+          title={t.certs.cat2} 
           icon={<GraduationCap className="text-cyan-400 w-6 h-6" />} 
           data={devCerts} 
         />
 
         <Section 
-          title="Estrategia & Negocios" 
+          title={t.certs.cat3} 
           icon={<Briefcase className="text-blue-400 w-6 h-6" />} 
           data={businessCerts} 
         />

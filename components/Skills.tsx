@@ -2,13 +2,17 @@
 import React from 'react';
 import { SKILLS } from '../constants';
 import { Code, Server, Shield, Wrench } from 'lucide-react';
+import { useLanguage } from '../App';
 
 const Skills: React.FC = () => {
+  // Added lang to the destructuring of useLanguage to fix line 14 error
+  const { lang, t } = useLanguage();
+  
   const categories = [
     { title: 'Frontend', items: SKILLS.frontend, icon: <Code className="w-6 h-6 text-cyan-400" /> },
     { title: 'Backend & DB', items: SKILLS.backend, icon: <Server className="w-6 h-6 text-blue-400" /> },
-    { title: 'Ciberseguridad', items: SKILLS.cyber, icon: <Shield className="w-6 h-6 text-emerald-400" /> },
-    { title: 'Herramientas IT', items: SKILLS.tools, icon: <Wrench className="w-6 h-6 text-orange-400" /> },
+    { title: t.hero.cyber, items: SKILLS.cyber, icon: <Shield className="w-6 h-6 text-emerald-400" /> },
+    { title: lang === 'es' ? 'Herramientas IT' : 'IT Tools', items: SKILLS.tools, icon: <Wrench className="w-6 h-6 text-orange-400" /> },
   ];
 
   return (
@@ -16,10 +20,10 @@ const Skills: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 font-mono-custom">
-            <span className="text-cyan-500">02.</span> <span className="reveal-text">TECH_STACK</span>
+            <span className="text-cyan-500">02.</span> <span className="reveal-text">{t.skills.title}</span>
           </h2>
           <p className="text-slate-400 max-w-2xl mx-auto uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold">
-            Infraestructura técnica para el mundo moderno
+            {t.skills.subtitle}
           </p>
         </div>
 

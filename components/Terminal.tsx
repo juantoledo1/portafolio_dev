@@ -1,31 +1,36 @@
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '../App';
 
 const Terminal: React.FC = () => {
+  const { lang, t } = useLanguage();
   const [history, setHistory] = useState<string[]>([]);
   const [input, setInput] = useState('');
   const [isAutoTyping, setIsAutoTyping] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const autoMessages = [
-    { text: 'Initializing Toledo_OS v1.0.4...', delay: 400 },
-    { text: 'System diagnostics... [SUCCESS]', delay: 800 },
-    { text: 'Scanning market opportunities in LATAM...', delay: 1200 },
-    { text: '[FOUND] Businesses requiring secure digital scaling.', delay: 1600 },
-    { text: '[FOUND] Critical vulnerabilities in common web architectures.', delay: 2000 },
-    { text: 'Loading freelance_strategy.sh...', delay: 2400 },
+    { text: t.terminal.init, delay: 400 },
+    { text: t.terminal.diag, delay: 800 },
+    { text: t.terminal.scan, delay: 1200 },
+    { text: t.terminal.found1, delay: 1600 },
+    { text: t.terminal.found2, delay: 2000 },
+    { text: t.terminal.loading, delay: 2400 },
     { text: '------------------------------------------------', delay: 2500 },
-    { text: 'SOLUTIONS AVAILABLE FOR YOUR BUSINESS:', delay: 2800 },
-    { text: '> Next.js & React: High Performance UI/UX', delay: 3100 },
-    { text: '> Node.js & PostgreSQL: Scalable Backends', delay: 3400 },
-    { text: '> Security Hardening: Protecting digital assets', delay: 3700 },
-    { text: '> Sales Optimization: Tech designed to sell.', delay: 4000 },
+    { text: t.terminal.solutions, delay: 2800 },
+    { text: t.terminal.s1, delay: 3100 },
+    { text: t.terminal.s2, delay: 3400 },
+    { text: t.terminal.s3, delay: 3700 },
+    { text: t.terminal.s4, delay: 4000 },
     { text: '------------------------------------------------', delay: 4200 },
-    { text: 'Status: READY TO UPGRADE YOUR PROJECT.', delay: 4600 },
-    { text: 'Type "help" to explore commands.', delay: 5000 }
+    { text: t.terminal.status, delay: 4600 },
+    { text: t.terminal.helpTip, delay: 5000 }
   ];
 
+  // Reset terminal when language changes
   useEffect(() => {
+    setHistory([]);
+    setIsAutoTyping(true);
     const timeouts: ReturnType<typeof setTimeout>[] = [];
 
     autoMessages.forEach((msg, index) => {
@@ -39,7 +44,7 @@ const Terminal: React.FC = () => {
     });
 
     return () => timeouts.forEach(t => clearTimeout(t));
-  }, []);
+  }, [lang]);
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -50,12 +55,12 @@ const Terminal: React.FC = () => {
   }, [history]);
 
   const commands: Record<string, () => void> = {
-    help: () => setHistory(prev => [...prev, '> help', 'Available: services, hire, whoami, stack, projects, clear, contact']),
+    help: () => setHistory(prev => [...prev, '> help', t.terminal.helpMsg]),
     whoami: () => setHistory(prev => [...prev, '> whoami', 'Juan Manuel Toledo: Full-Stack Dev + Cyber Specialist.']),
-    services: () => setHistory(prev => [...prev, '> services', '- Custom Web Apps', '- Security Audits', '- Local SEO', '- PostgreSQL Architectures']),
-    hire: () => setHistory(prev => [...prev, '> hire', 'Redirecting to contact... WhatsApp: +54 9 376 467-4458']),
+    services: () => setHistory(prev => [...prev, '> services', lang === 'es' ? '- Web Apps a Medida' : '- Custom Web Apps', '- Security Audits', '- Local SEO', '- PostgreSQL Architectures']),
+    hire: () => setHistory(prev => [...prev, '> hire', lang === 'es' ? 'Redirigiendo... WhatsApp: +54 9 376 467-4458' : 'Redirecting... WhatsApp: +54 9 376 467-4458']),
     stack: () => setHistory(prev => [...prev, '> stack', 'Next.js, Prisma, PostgreSQL, Docker, Qwen CLI, Arch Linux.']),
-    projects: () => setHistory(prev => [...prev, '> projects', 'Explore the grid: Invitations, CMS, and B2B Landings.']),
+    projects: () => setHistory(prev => [...prev, '> projects', lang === 'es' ? 'Explora la cuadrícula de proyectos.' : 'Explore the project grid below.']),
     clear: () => setHistory([]),
     contact: () => setHistory(prev => [...prev, '> contact', 'WhatsApp: +54 9 376 467-4458'])
   };
@@ -86,7 +91,7 @@ const Terminal: React.FC = () => {
         </div>
         <div className="p-4 md:p-5 h-[300px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/80 backdrop-blur-sm">
           {history.map((line, i) => (
-            <div key={i} className={`${line.startsWith('>') ? 'text-cyan-400' : line.startsWith('[FOUND]') || line.includes('[SUCCESS]') ? 'text-emerald-400' : 'text-slate-300'} mb-1 break-words`}>
+            <div key={i} className={`${line.startsWith('>') ? 'text-cyan-400' : line.startsWith('[') ? 'text-emerald-400' : 'text-slate-300'} mb-1 break-words`}>
               {line}
             </div>
           ))}

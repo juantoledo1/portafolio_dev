@@ -1,19 +1,23 @@
 
 import React from 'react';
-import { PROJECTS } from '../constants';
+import { getProjects } from '../constants';
 import { ExternalLink, Code2 } from 'lucide-react';
+import { useLanguage } from '../App';
 
 const Projects: React.FC = () => {
+  const { lang, t } = useLanguage();
+  const projects = getProjects(lang);
+
   return (
     <section id="projects" className="py-24 bg-transparent relative z-10">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div>
             <h2 className="text-3xl md:text-5xl font-bold mb-4 font-mono-custom flex items-center gap-3">
-              <span className="text-cyan-500">01.</span> <span className="reveal-text">PROYECTOS_DESTACADOS</span>
+              <span className="text-cyan-500">01.</span> <span className="reveal-text">{t.projects.title}</span>
             </h2>
             <p className="text-slate-400 max-w-xl text-lg">
-              Soluciones integrales que demuestran la fusión entre código seguro y alto rendimiento comercial.
+              {t.projects.desc}
             </p>
           </div>
           <div className="mt-6 md:mt-0">
@@ -22,7 +26,7 @@ const Projects: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PROJECTS.map((project) => (
+          {projects.map((project) => (
             <div 
               key={project.id} 
               className="group glass-panel rounded-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-2 shadow-xl"
@@ -46,7 +50,7 @@ const Projects: React.FC = () => {
               </div>
               <div className="p-8">
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                  <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors leading-tight">
                     {project.title}
                   </h3>
                   <Code2 className="w-6 h-6 text-cyan-500/40" />
@@ -56,7 +60,7 @@ const Projects: React.FC = () => {
                 </p>
                 {project.logro && (
                    <div className="mb-6 p-3 bg-emerald-500/5 border border-emerald-500/20 rounded-xl text-xs text-emerald-400 font-mono-custom">
-                     <span className="font-bold">[EXITO]:</span> {project.logro}
+                     <span className="font-bold">[{t.projects.success}]:</span> {project.logro}
                    </div>
                 )}
                 <div className="flex flex-wrap gap-2">
