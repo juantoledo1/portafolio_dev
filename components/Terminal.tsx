@@ -29,14 +29,14 @@ const Terminal: React.FC = () => {
     { text: t.terminal.helpTip, delay: 5000 }
   ];
 
-  // Observador para activar la terminal cuando esté bien visible (60% en pantalla)
+  // Observador para activar la terminal cuando esté bien visible (70% en pantalla)
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !hasStarted) {
         setHasStarted(true);
         setIsAutoTyping(true);
       }
-    }, { threshold: 0.6 });
+    }, { threshold: 0.7 });
 
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -62,11 +62,11 @@ const Terminal: React.FC = () => {
     return () => timeouts.forEach(t => clearTimeout(t));
   }, [hasStarted, lang]);
 
-  // SCROLL INTERNO MATEMÁTICO: No afecta al scroll global del navegador
+  // SCROLL INTERNO: Solo actualizamos scrollTop del div de la terminal
   useEffect(() => {
     const el = scrollContainerRef.current;
     if (el) {
-      // Usamos una asignación directa sin animaciones globales para evitar el "ghost scroll"
+      // Ajustamos el scroll interno al final sin tocar el scroll de la ventana
       el.scrollTop = el.scrollHeight;
     }
   }, [history]);
@@ -108,9 +108,8 @@ const Terminal: React.FC = () => {
         </div>
         <div 
           ref={scrollContainerRef}
-          // overflow-anchor: none es la clave para que el navegador no mueva la página principal
           style={{ overflowAnchor: 'none' }}
-          className="p-4 md:p-5 h-[320px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/90 backdrop-blur-sm"
+          className="p-4 md:p-5 h-[320px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/95 backdrop-blur-sm"
         >
           {!hasStarted && (
             <div className="text-slate-700 animate-pulse text-center mt-20 font-bold uppercase tracking-widest text-[10px]">

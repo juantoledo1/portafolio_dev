@@ -13,23 +13,21 @@ const Contact: React.FC = () => {
 
     const myForm = e.currentTarget;
     const formData = new FormData(myForm);
-
-    // Método ultra-robusto: Construimos los parámetros URL asegurando que form-name esté presente
-    const searchParams = new URLSearchParams();
-    formData.forEach((value, key) => {
-      searchParams.append(key, value as string);
-    });
     
-    // Si por alguna razón form-name no entró desde el input hidden, lo forzamos
-    if (!searchParams.has('form-name')) {
-      searchParams.append('form-name', 'contact');
-    }
+    // Construcción manual siguiendo estrictamente la documentación de Netlify para AJAX
+    const body = new URLSearchParams();
+    body.append("form-name", "contact");
+    formData.forEach((value, key) => {
+      if (key !== "form-name") {
+        body.append(key, value as string);
+      }
+    });
 
     try {
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: searchParams.toString()
+        body: body.toString()
       });
 
       if (response.ok) {
@@ -37,7 +35,7 @@ const Contact: React.FC = () => {
         myForm.reset();
         setTimeout(() => setStatus('idle'), 5000);
       } else {
-        throw new Error("Netlify response not ok");
+        throw new Error("Submission failed");
       }
     } catch (error) {
       console.error("Netlify Form Error:", error);
@@ -154,7 +152,7 @@ const Contact: React.FC = () => {
               
               {status === 'error' && (
                 <p className="text-red-400 text-xs text-center font-mono-custom">
-                  Hubo un error al enviar. Por favor intenta por WhatsApp.
+                  Error en el envío. Por favor, contacta por WhatsApp.
                 </p>
               )}
 
