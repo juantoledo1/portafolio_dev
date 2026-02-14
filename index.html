@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Manuel Toledo | Full-Stack & Ciberseguridad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f2ff;
+            --neon-glow: rgba(0, 242, 255, 0.5);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #010409;
+            color: #f8fafc;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* CUSTOM SCROLLBAR PROFESIONAL */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #010409;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0891b2;
+        }
+
+        .font-mono-custom {
+            font-family: 'Fira+Code', monospace;
+        }
+        
+        /* FONDO ANIMADO */
+        .bg-fixed-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -20;
+            background: #010409;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .cyber-grid {
+            position: absolute;
+            top: -20%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 242, 255, 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 242, 255, 0.2) 1px, transparent 1px);
+            background-size: 80px 80px;
+            transform: perspective(1000px) rotateX(60deg);
+            transform-origin: center center;
+            animation: grid-move 25s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { transform: perspective(1000px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(1000px) rotateX(60deg) translateY(80px); }
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.35;
+            z-index: -15;
+            animation: float 25s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 800px; height: 800px; background: #06b6d4; top: -15%; left: -10%; }
+        .orb-2 { width: 700px; height: 700px; background: #1e40af; bottom: -10%; right: -5%; animation-delay: -7s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(120px, 100px) scale(1.2); }
+        }
+
+        /* AJUSTE DE MARGEN PARA NAVEGACIÓN - CRÍTICO */
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.8) !important;
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 242, 255, 0.15) !important;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px var(--neon-glow);
+        }
+
+        .reveal-text {
+            background: linear-gradient(to bottom right, #ffffff 70%, #64748b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+</head>
+<body>
+    <div class="bg-fixed-layer">
+        <div class="cyber-grid"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#010409] via-transparent to-[#010409] pointer-events-none"></div>
+    </div>
+    <div id="root"></div>
+</body>
+</html>
