@@ -5,32 +5,28 @@ import { useLanguage } from '../App';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
-  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
-  const encode = (data: any) => {
-    return Object.keys(data)
-      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-      .join("&");
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('sending');
 
-    // Envío exacto según el estándar que detecta Netlify
+    const myForm = e.currentTarget;
+    const formData = new FormData(myForm);
+
+    // Método oficial recomendado por la documentación de Netlify para AJAX
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "contact", ...formState })
+      body: new URLSearchParams(formData as any).toString()
     })
       .then(() => {
         setStatus('sent');
-        setFormState({ name: '', email: '', message: '' });
+        myForm.reset(); // Limpia el formulario
         setTimeout(() => setStatus('idle'), 5000);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Netlify Form Error:", error);
         setStatus('error');
         setTimeout(() => setStatus('idle'), 5000);
       });
@@ -101,6 +97,7 @@ const Contact: React.FC = () => {
               onSubmit={handleSubmit}
               className="space-y-8 relative z-10"
             >
+              {/* Estos campos ocultos son críticos para que Netlify procese los datos */}
               <input type="hidden" name="form-name" value="contact" />
               <div className="hidden">
                 <label>Honeypot: <input name="bot-field" /></label>
@@ -114,8 +111,6 @@ const Contact: React.FC = () => {
                     required 
                     type="text" 
                     name="name"
-                    value={formState.name}
-                    onChange={(e) => setFormState({...formState, name: e.target.value})}
                     className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all" 
                     placeholder={t.contact.placeName} 
                   />
@@ -127,8 +122,6 @@ const Contact: React.FC = () => {
                     required 
                     type="email" 
                     name="email"
-                    value={formState.email}
-                    onChange={(e) => setFormState({...formState, email: e.target.value})}
                     className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all" 
                     placeholder={t.contact.placeEmail} 
                   />
@@ -141,8 +134,6 @@ const Contact: React.FC = () => {
                   required 
                   name="message"
                   rows={5} 
-                  value={formState.message}
-                  onChange={(e) => setFormState({...formState, message: e.target.value})}
                   className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-cyan-500 transition-all resize-none" 
                   placeholder={t.contact.placeMsg}
                 ></textarea>

@@ -29,14 +29,14 @@ const Terminal: React.FC = () => {
     { text: t.terminal.helpTip, delay: 5000 }
   ];
 
-  // Observador para activar la terminal cuando sea visible
+  // Observador para activar la terminal cuando esté bien visible (50% de la terminal en pantalla)
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && !hasStarted) {
         setHasStarted(true);
         setIsAutoTyping(true);
       }
-    }, { threshold: 0.2 });
+    }, { threshold: 0.5 }); // threshold más estricto
 
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -62,10 +62,14 @@ const Terminal: React.FC = () => {
     return () => timeouts.forEach(t => clearTimeout(t));
   }, [hasStarted, lang]);
 
-  // SCROLL INTERNO: Solo mueve el contenido dentro de la terminal
+  // SCROLL INTERNO MEJORADO: overflow-anchor: none previene que el navegador mueva la página
   useEffect(() => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+      // Forzamos el scroll al final del cuadro negro sin afectar el scroll global de la ventana
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'auto'
+      });
     }
   }, [history]);
 
@@ -106,7 +110,9 @@ const Terminal: React.FC = () => {
         </div>
         <div 
           ref={scrollContainerRef}
-          className="p-4 md:p-5 h-[300px] md:h-[400px] overflow-y-auto custom-scrollbar bg-slate-950/80 backdrop-blur-sm scroll-smooth"
+          // overflow-anchor: none es la clave para que el navegador no desplace la página principal
+          style={{ overflowAnchor: 'none' }}
+          className="p-4 md:p-5 h-[300px] md:h-[400px] min-h-[300px] overflow-y-auto custom-scrollbar bg-slate-950/80 backdrop-blur-sm"
         >
           {!hasStarted && (
             <div className="text-slate-600 animate-pulse text-center mt-20">
