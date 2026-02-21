@@ -39,10 +39,14 @@ const Hero: React.FC = () => {
             {t.hero.title1} <br className="hidden sm:block" />
             <span className="text-cyan-400 glow-text">{t.hero.title2}</span> & <span className="text-emerald-400">{t.hero.title3}</span>.
           </h1>
-          
-          <p className="text-slate-400 text-sm md:text-lg lg:text-xl mb-10 max-w-2xl mx-auto leading-relaxed px-4">
-            {t.hero.desc}
-          </p>
+
+          <div className="mb-6 flex items-center gap-3 justify-center">
+            <div className="h-px w-8 bg-cyan-500/30 hidden sm:block"></div>
+            <p className="text-cyan-400 font-mono-custom text-[10px] md:text-sm uppercase tracking-[0.3em] font-semibold">
+              {t.hero.tagline}
+            </p>
+            <div className="h-px w-8 bg-cyan-500/30 hidden sm:block"></div>
+          </div>
           
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16 w-full max-w-[280px] sm:max-w-md relative z-[70]">
             <button 
