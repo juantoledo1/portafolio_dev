@@ -72,7 +72,7 @@ const Terminal: React.FC = () => {
     whoami: () => setHistory(prev => [...prev, '> whoami', 'Juan Manuel Toledo: Full-Stack Dev + Cyber Specialist.']),
     services: () => setHistory(prev => [...prev, '> services', lang === 'es' ? '- Web Apps a Medida' : '- Custom Web Apps', '- Security Audits', '- Local SEO']),
     hire: () => setHistory(prev => [...prev, '> hire', '+54 9 376 467-4458']),
-    stack: () => setHistory(prev => [...prev, '> stack', 'Next.js, Prisma, PostgreSQL, Docker, Arch Linux.']),
+    stack: () => setHistory(prev => [...prev, '> stack', 'NestJS, Vite, Bootstrap, Prisma, PostgreSQL, Docker, Arch Linux.']),
     projects: () => setHistory(prev => [...prev, '> projects', lang === 'es' ? 'Explora abajo.' : 'Explore below.']),
     clear: () => setHistory([]),
     contact: () => setHistory(prev => [...prev, '> contact', 'WhatsApp: +54 9 376 467-4458'])

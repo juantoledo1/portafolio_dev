@@ -104,8 +104,8 @@ export const CERTIFICATIONS: Certification[] = [
 ];
 
 export const SKILLS = {
-  frontend: ['React', 'Next.js', 'Astro', 'Tailwind CSS', 'JavaScript (ES6+)'],
-  backend: ['Node.js', 'Express', 'Prisma', 'PostgreSQL', 'MySQL', 'REST APIs'],
+  frontend: ['React', 'Vite', 'Bootstrap', 'Astro', 'Tailwind CSS', 'JavaScript (ES6+)'],
+  backend: ['NestJS', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'MySQL', 'REST APIs'],
   cyber: ['Kali Linux', 'Arch Linux', 'Ubuntu/Debian', 'CyberOps', 'Audits', 'Hardening', 'DFIR'],
   tools: ['Docker', 'Gemini CLI', 'Qwen CLI', 'VS Code', 'Git/GitHub', 'VirtualBox', 'Linux (Debian/Ubuntu)']
 };
